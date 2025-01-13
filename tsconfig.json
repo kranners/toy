@@ -1,0 +1,21 @@
+{
+  "compilerOptions": {
+    "module": "es2022",
+    "moduleResolution": "bundler",
+    "outDir": "dist",
+    "esModuleInterop": true,
+    "forceConsistentCasingInFileNames": true,
+    "strict": true,
+    "skipLibCheck": true,
+    "types": [
+      "node",
+      "jest",
+      "three",
+      "vite/client"
+    ],
+    // Required for Vite
+    // See: https://vite.dev/guide/features.html#typescript
+    "isolatedModules": true,
+    "useDefineForClassFields": true
+  }
+}
