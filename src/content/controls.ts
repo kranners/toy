@@ -1,13 +1,18 @@
 import { OrbitControls } from "three/examples/jsm/Addons.js";
-import { Component } from "..";
-import { camera, renderer } from "../systems/render";
+import { Component, Engine, State } from "..";
 
-const orbitControls = new OrbitControls(camera, renderer.domElement);
+let orbitControls: OrbitControls;
 
 export const controls: Component[] = [
   {
-    onTick: () => {
+    onInit: (_: State, engine: Engine) => {
+      orbitControls = new OrbitControls(
+        engine.camera,
+        engine.renderer.domElement
+      );
+    },
+    onUpdate: () => {
       orbitControls.update();
     }
-  }
+  },
 ];

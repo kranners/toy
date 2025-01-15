@@ -1,8 +1,8 @@
-import { World } from "..";
+import { State } from "..";
 import { controls } from "./controls";
 import { cube } from "./cube";
 
-export const world: World = {
+export const state: State = {
   0: cube,
-  1: controls
+  1: controls,
 }

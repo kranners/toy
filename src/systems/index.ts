@@ -1,27 +1,8 @@
-import { System, World } from "..";
-import { debug } from "./debug";
+import { System } from "..";
 import { render } from "./render";
-import { tick } from "./tick";
+import { debug } from "./debug";
+import { physics } from "./physics";
+import { tick } from "./lifecycle";
 
-export const systems: System[] = [
-  render,
-  debug,
-  tick,
-];
-
-export const update = (systems: System[], world: World) => {
-  systems.forEach((system) => {
-    system.update(world);
-  })
-};
-
-export const init = (systems: System[], world: World) => {
-  systems.forEach((system) => {
-    if (system.init === undefined) {
-      return;
-    }
-
-    system.init(world);
-  })
-}
+export const systems: System[] = ;
 

@@ -1,20 +1,16 @@
 import type { ColliderDesc, RigidBody, World as RapierWorld } from "@dimforge/rapier3d";
-import { Component, query, System, World } from "..";
+import { Component, query, System } from "..";
 
 export type Collidable = {
   desc?: ColliderDesc;
-  parent?: RigidBody;
+  getRigidBody?: (rapierWorld: RapierWorld) => RigidBody;
+
   simulated?: boolean;
 }
 
 export const isCollidable = (component: Component): component is Collidable => {
   return "desc" in component;
 }
-
-const gravity = { x: 0.0, y: -9.81, z: 0.0 };
-
-const rapier = await import("@dimforge/rapier3d");
-export const rapierWorld = new rapier.World(gravity);
 
 // const syncInteractablePosition = (interactable: Interactable): void => {
 //   if (interactable.desc === undefined || interactable.object3d === undefined) {
@@ -26,10 +22,20 @@ export const rapierWorld = new rapier.World(gravity);
 // }
 
 export const physics: System = {
-  update: (world: World) => {
-    const collidables = query(world, isCollidable);
-
-    rapierWorld.step();
+  update: (_, engine) => {
+    engine.world.step();
   },
-  init: (world: World) => { /* ... */ }
+  init: (state, engine) => {
+    const collidables = query(state, isCollidable);
+
+    collidables.forEach((collidable) => {
+      if (!collidable.desc || collidable.simulated) {
+        return;
+      }
+
+      const rigidBody = collidable.getRigidBody?.(engine.world);
+
+      engine.world.createCollider(collidable.desc, rigidBody);
+    })
+  }
 }

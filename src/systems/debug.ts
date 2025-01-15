@@ -1,10 +1,10 @@
-import { System, World } from "..";
+import { System, State } from "..";
 
 export const debug: System = {
-  update: (world: World) => {
-    console.debug("UPDATE", world);
+  update: (state: State) => {
+    console.debug("UPDATE", state);
   },
-  init: (world: World) => {
-    console.debug("INIT", world);
+  init: (state: State) => {
+    console.debug("INIT", state);
   }
 }
