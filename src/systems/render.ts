@@ -1,5 +1,5 @@
-import { Object3D, PerspectiveCamera, Scene, WebGLRenderer } from "three";
-import { Component, query, System, State } from "..";
+import { Object3D, Scene } from "three";
+import { Component, query, System, State, Engine } from "..";
 
 export type Renderable = Component & {
   object3d?: Object3D;
@@ -18,20 +18,20 @@ const addMissingRenderable = (renderable: Renderable, scene: Scene) => {
 }
 
 export const render: System = {
-  update: (state: State) => {
+  update: (state: State, engine: Engine) => {
     const renderables = query(state, isRenderable);
 
     renderables.forEach((renderable) => {
-      addMissingRenderable(renderable, scene);
+      addMissingRenderable(renderable, engine.scene);
     });
 
-    renderer.render(scene, camera);
+    engine.renderer.render(engine.scene, engine.camera);
   },
-  init: (state: State) => {
+  init: (state: State, engine: Engine) => {
     const renderables = query(state, isRenderable);
 
     renderables.forEach((renderable) => {
-      addMissingRenderable(renderable, scene);
+      addMissingRenderable(renderable, engine.scene);
     });
   }
 }
