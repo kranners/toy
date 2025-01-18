@@ -66,7 +66,7 @@ import("@dimforge/rapier3d").then((rapier) => {
     1000                                    // Max render distance
   );
 
-  camera.position.set(1.5, 1.5, 1.5);
+  camera.position.set(3, 3, 3);
 
   const engine: Engine = { renderer, scene, camera, world };
   const systems: System[] = [tick, base];

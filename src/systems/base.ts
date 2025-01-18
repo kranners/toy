@@ -53,7 +53,10 @@ const syncInteractivePosition = (interactive: Interactive): void => {
   const { x, y, z } = interactive.rigidBody.translation();
   const { renderOffset = { x: 0, y: 0, z: 0 } } = interactive;
 
+  const { x: rotationX, y: rotationY, z: rotationZ } = interactive.rigidBody.rotation();
+
   interactive.object3d.position.set(x, y, z).add(renderOffset);
+  // interactive.object3d.rotation.set(rotationX, rotationY, rotationZ);
 }
 
 // Handles rendering and physics. Naming things is hard.
