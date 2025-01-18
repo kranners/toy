@@ -1,9 +1,10 @@
 import { OrbitControls } from "three/examples/jsm/Addons.js";
-import { Component, Engine, State } from "..";
+import { Engine, State } from "..";
+import { Lifecycleable } from "../systems/lifecycle";
 
 let orbitControls: OrbitControls;
 
-export const controls: Component[] = [
+export const controls: [Lifecycleable] = [
   {
     onInit: (_: State, engine: Engine) => {
       orbitControls = new OrbitControls(

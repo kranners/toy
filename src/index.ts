@@ -1,12 +1,10 @@
-import { debug } from "./systems/debug";
-import { render } from "./systems/render";
 import type { World } from "@dimforge/rapier3d";
 import { tick } from "./systems/lifecycle";
-import { physics } from "./systems/physics";
 import { Camera, PerspectiveCamera, Scene, WebGLRenderer } from "three";
 import { state } from "./content";
+import { base } from "./systems/base";
 
-export type Entity = number;
+export type Entity = string;
 
 export type Component = Record<string, unknown>;
 
@@ -27,12 +25,35 @@ export type System = {
   init?: (state: State, engine: Engine) => void;
 }
 
-export function query<C extends Component>(state: State, predicate: Predicate<C>): C[] {
+export function query<C extends Component>(
+  state: State,
+  predicate: Predicate<C>
+): C[] {
   const components = Object.values(state).flat();
   return components.filter(predicate);
 }
 
+export function queryEntity<
+  S extends State,
+  C extends Component,
+  E extends Entity,
+>(
+  state: S,
+  predicate: Predicate<C>,
+  entity: E,
+): C | undefined {
+  if (!(entity in state)) {
+    return undefined;
+  }
+
+  return state[entity].find(predicate);
+}
+
 import("@dimforge/rapier3d").then((rapier) => {
+  if (document.body.children.length > 1) {
+    return;
+  }
+
   const gravity = { x: 0.0, y: -9.81, z: 0.0 };
   const world = new rapier.World(gravity);
 
@@ -45,12 +66,12 @@ import("@dimforge/rapier3d").then((rapier) => {
     1000                                    // Max render distance
   );
 
-  camera.position.z = 2;
+  camera.position.set(1.5, 1.5, 1.5);
 
   const engine: Engine = { renderer, scene, camera, world };
-  const systems: System[] = [render, debug, tick, physics];
+  const systems: System[] = [tick, base];
 
-  renderer.setSize(window.innerWidth, window.innerHeight);
+  renderer.setSize(window.innerWidth, window.innerHeight, true);
   document.body.appendChild(renderer.domElement);
 
   systems.forEach((system) => {
