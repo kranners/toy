@@ -12,11 +12,7 @@
       "node",
       "jest",
       "three",
-      "vite/client"
-    ],
-    // Required for Vite
-    // See: https://vite.dev/guide/features.html#typescript
-    "isolatedModules": true,
-    "useDefineForClassFields": true
+      "webpack"
+    ]
   }
 }

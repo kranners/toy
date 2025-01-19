@@ -16,7 +16,7 @@
     in
     {
       devShells.default = pkgs.mkShell {
-        packages = [ pkgs.bashInteractive ];
+        packages = [ pkgs.nodejs_23 ];
       };
     }
     );
