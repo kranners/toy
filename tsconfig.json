@@ -10,9 +10,9 @@
     "skipLibCheck": true,
     "types": [
       "node",
-      "jest",
       "three",
-      "webpack"
+      "webpack",
+      "@vitest/browser/providers/playwright"
     ]
   },
   "ts-node": {
