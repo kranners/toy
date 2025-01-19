@@ -1,8 +1,9 @@
 import type { World } from "@dimforge/rapier3d";
 import { tick } from "./systems/lifecycle";
-import { Camera, PerspectiveCamera, Scene, WebGLRenderer } from "three";
+import { PerspectiveCamera, Scene, WebGLRenderer } from "three";
 import { state } from "./content";
 import { base } from "./systems/base";
+import { resize } from "./systems/resize";
 
 export type Entity = string;
 
@@ -15,13 +16,13 @@ export type State = Record<Entity, Component[]>;
 export type Engine = {
   renderer: WebGLRenderer;
   scene: Scene;
-  camera: Camera;
+  camera: PerspectiveCamera;
 
   world: World;
 }
 
 export type System = {
-  update: (state: State, engine: Engine) => void;
+  update?: (state: State, engine: Engine) => void;
   init?: (state: State, engine: Engine) => void;
 }
 
@@ -69,7 +70,7 @@ import("@dimforge/rapier3d").then((rapier) => {
   camera.position.set(3, 3, 3);
 
   const engine: Engine = { renderer, scene, camera, world };
-  const systems: System[] = [tick, base];
+  const systems: System[] = [tick, base, resize];
 
   renderer.setSize(window.innerWidth, window.innerHeight, true);
   document.body.appendChild(renderer.domElement);
@@ -84,6 +85,10 @@ import("@dimforge/rapier3d").then((rapier) => {
 
   renderer.setAnimationLoop(() => {
     systems.forEach((system) => {
+      if (system.update === undefined) {
+        return;
+      }
+
       system.update(state, engine);
     })
   });
