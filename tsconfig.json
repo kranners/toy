@@ -11,7 +11,8 @@
     "types": [
       "node",
       "three",
-      "webpack"
+      "webpack",
+      "@vitest/browser/providers/playwright"
     ]
   },
   "ts-node": {
