@@ -1,6 +1,8 @@
 import HtmlWebpackPlugin from "html-webpack-plugin";
 import webpack from "webpack";
 
+import "webpack-dev-server";
+
 const config: webpack.Configuration = {
   // https://webpack.js.org/configuration/mode
   mode: "development",
@@ -16,6 +18,9 @@ const config: webpack.Configuration = {
   },
   resolve: {
     extensions: [".ts", ".js", ".html", ".json"],
+  },
+  devServer: {
+    hot: true,
   },
   experiments: {
     asyncWebAssembly: true,
