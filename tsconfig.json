@@ -14,5 +14,10 @@
       "three",
       "webpack"
     ]
+  },
+  "ts-node": {
+    "compilerOptions": {
+      "module": "commonjs"
+    }
   }
 }
