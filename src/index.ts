@@ -4,6 +4,7 @@ import { PerspectiveCamera, Scene, WebGLRenderer } from "three";
 import { state } from "./content";
 import { base } from "./systems/base";
 import { resize } from "./systems/resize";
+import { logCurrentState } from "./systems/log-current-state";
 
 export type Entity = string;
 
@@ -50,13 +51,15 @@ export function queryEntity<
   return state[entity].find(predicate);
 }
 
-import("@dimforge/rapier3d").then((rapier) => {
+export type Rapier = typeof import("@dimforge/rapier3d");
+export const GRAVITY = { x: 0.0, y: -9.81, z: 0.0 };
+
+import("@dimforge/rapier3d").then((rapier: Rapier) => {
   if (document.body.children.length > 1) {
     return;
   }
 
-  const gravity = { x: 0.0, y: -9.81, z: 0.0 };
-  const world = new rapier.World(gravity);
+  const world = new rapier.World(GRAVITY);
 
   const renderer = new WebGLRenderer();
   const scene = new Scene();
@@ -70,7 +73,7 @@ import("@dimforge/rapier3d").then((rapier) => {
   camera.position.set(3, 3, 3);
 
   const engine: Engine = { renderer, scene, camera, world };
-  const systems: System[] = [tick, base, resize];
+  const systems: System[] = [tick, base, resize, logCurrentState];
 
   renderer.setSize(window.innerWidth, window.innerHeight, true);
   document.body.appendChild(renderer.domElement);

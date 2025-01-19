@@ -4,7 +4,7 @@ import { Object3D, Quaternion, Vector3Like } from "three";
 
 export type Interactive = Component & {
   object3d: Object3D;
-  desc: ColliderDesc;
+  desc?: ColliderDesc;
   renderOffset?: Vector3Like;
 
   createRigidBody?: (rapierWorld: RapierWorld) => RigidBody;
@@ -15,7 +15,7 @@ export type Interactive = Component & {
 };
 
 export const isInteractive = (component: Component): component is Interactive => {
-  return "desc" in component || "object3d" in component;
+  return "object3d" in component;
 }
 
 const getRigidBody = (interactive: Interactive, engine: Engine): RigidBody | undefined => {
@@ -64,8 +64,13 @@ const syncInteractivePosition = (interactive: Interactive): void => {
   interactive.object3d.rotation.setFromQuaternion(new Quaternion(rotationX, rotationY, rotationZ, rotationW));
 }
 
+type BaseSystem = System & {
+  update: (state: State, engine: Engine) => void;
+  init: (state: State, engine: Engine) => void;
+};
+
 // Handles rendering and physics. Naming things is hard.
-export const base: System = {
+export const base: BaseSystem = {
   update: (state: State, engine: Engine) => {
     engine.world.step();
 
@@ -85,4 +90,4 @@ export const base: System = {
       addMissingInteractive(interactive, engine);
     })
   },
-}
+} as const;
