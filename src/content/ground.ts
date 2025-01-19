@@ -1,4 +1,4 @@
-import { BoxGeometry, DoubleSide, Mesh, MeshBasicMaterial, PlaneGeometry, Vector3 } from "three";
+import { BoxGeometry, DoubleSide, Mesh, MeshBasicMaterial, Vector3 } from "three";
 import { ColliderDesc } from "@dimforge/rapier3d";
 import { Interactive } from "../systems/base";
 

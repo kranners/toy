@@ -30,7 +30,11 @@ const addMissingInteractive = (interactive: Interactive, engine: Engine) => {
   if (!interactive.rendered && interactive.object3d) {
     const { x, y, z } = interactive.desc.translation;
     const { renderOffset = { x: 0, y: 0, z: 0 } } = interactive;
+
     interactive.object3d.position.set(x, y, z).add(renderOffset);
+
+    const { x: rotationX, y: rotationY, z: rotationZ, w: rotationW } = interactive.desc.rotation;
+    interactive.object3d.rotation.setFromQuaternion(new Quaternion(rotationX, rotationY, rotationZ, rotationW));
 
     engine.scene.add(interactive.object3d);
 
@@ -57,7 +61,7 @@ const syncInteractivePosition = (interactive: Interactive): void => {
   interactive.object3d.position.set(x, y, z).add(renderOffset);
 
   const { x: rotationX, y: rotationY, z: rotationZ, w: rotationW } = interactive.rigidBody.rotation();
-  interactive.object3d.rotation.setFromQuaternion(new Quaternion(rotationX, rotationY, rotationZ, rotationW))
+  interactive.object3d.rotation.setFromQuaternion(new Quaternion(rotationX, rotationY, rotationZ, rotationW));
 }
 
 // Handles rendering and physics. Naming things is hard.
