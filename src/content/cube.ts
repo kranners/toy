@@ -6,7 +6,7 @@ import { queryEntity, State } from "..";
 
 const geometry = new BoxGeometry();
 const material = new MeshBasicMaterial({
-  color: 0xf0f00f,
+  color: 0xffffff,
   wireframe: true,
 });
 const object3d = new Mesh(geometry, material);

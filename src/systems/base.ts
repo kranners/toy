@@ -1,5 +1,5 @@
 import { Component, query, System, State, Engine } from "..";
-import type { ColliderDesc, RigidBody, World as RapierWorld } from "@dimforge/rapier3d";
+import type { ColliderDesc, RigidBody, World as RapierWorld, Vector, Rotation } from "@dimforge/rapier3d";
 import { Object3D, Quaternion, Vector3Like } from "three";
 
 export type Interactive = Component & {
@@ -28,16 +28,9 @@ const getRigidBody = (interactive: Interactive, engine: Engine): RigidBody | und
 
 const addMissingInteractive = (interactive: Interactive, engine: Engine) => {
   if (!interactive.rendered && interactive.object3d) {
-    const { x, y, z } = interactive.desc.translation;
-    const { renderOffset = { x: 0, y: 0, z: 0 } } = interactive;
-
-    interactive.object3d.position.set(x, y, z).add(renderOffset);
-
-    const { x: rotationX, y: rotationY, z: rotationZ, w: rotationW } = interactive.desc.rotation;
-    interactive.object3d.rotation.setFromQuaternion(new Quaternion(rotationX, rotationY, rotationZ, rotationW));
+    syncInteractivePosition(interactive);
 
     engine.scene.add(interactive.object3d);
-
     interactive.rendered = true;
   }
 
@@ -49,18 +42,37 @@ const addMissingInteractive = (interactive: Interactive, engine: Engine) => {
   }
 }
 
-const syncInteractivePosition = (interactive: Interactive): void => {
-  if (interactive.rigidBody === undefined || interactive.object3d === undefined) {
+const getInteractivePhysicsPosition = (interactive: Interactive): [Vector, Rotation] | undefined => {
+  if (interactive.desc === undefined) {
     return;
   }
 
-  const { x, y, z } = interactive.rigidBody.translation();
+  if (interactive.rigidBody === undefined) {
+    return [interactive.desc.translation, interactive.desc.rotation];
+  }
+
+  return [interactive.rigidBody.translation(), interactive.rigidBody.rotation()];
+}
+
+const syncInteractivePosition = (interactive: Interactive): void => {
+  if (interactive.object3d === undefined) {
+    return;
+  }
+
+  const position = getInteractivePhysicsPosition(interactive);
+
+  if (position === undefined) {
+    return;
+  }
+
+  const [translation, rotation] = position;
+
+  const { x: translationX, y: translationY, z: translationZ } = translation;
+  const { x: rotationX, y: rotationY, z: rotationZ, w: rotationW } = rotation;
+
   const { renderOffset = { x: 0, y: 0, z: 0 } } = interactive;
 
-
-  interactive.object3d.position.set(x, y, z).add(renderOffset);
-
-  const { x: rotationX, y: rotationY, z: rotationZ, w: rotationW } = interactive.rigidBody.rotation();
+  interactive.object3d.position.set(translationX, translationY, translationZ).add(renderOffset);
   interactive.object3d.rotation.setFromQuaternion(new Quaternion(rotationX, rotationY, rotationZ, rotationW));
 }
 

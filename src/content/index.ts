@@ -1,4 +1,5 @@
 import { State } from "..";
+import { atmosphere } from "./atmosphere";
 import { controls } from "./controls";
 import { cube } from "./cube";
 import { ground } from "./ground";
@@ -8,5 +9,6 @@ export const state: State = {
   cube,
   controls,
   ground,
-  sky
+  sky,
+  atmosphere
 }

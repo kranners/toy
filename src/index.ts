@@ -73,7 +73,7 @@ import("@dimforge/rapier3d").then((rapier: Rapier) => {
   camera.position.set(3, 3, 3);
 
   const engine: Engine = { renderer, scene, camera, world };
-  const systems: System[] = [tick, base, resize, logCurrentState];
+  const systems: System[] = [tick, base, resize];
 
   renderer.setSize(window.innerWidth, window.innerHeight, true);
   document.body.appendChild(renderer.domElement);
