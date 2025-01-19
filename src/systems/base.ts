@@ -1,6 +1,6 @@
 import { Component, query, System, State, Engine } from "..";
 import type { ColliderDesc, RigidBody, World as RapierWorld } from "@dimforge/rapier3d";
-import { Object3D, Vector3Like } from "three";
+import { Object3D, Quaternion, Vector3Like } from "three";
 
 export type Interactive = Component & {
   object3d: Object3D;
@@ -53,10 +53,11 @@ const syncInteractivePosition = (interactive: Interactive): void => {
   const { x, y, z } = interactive.rigidBody.translation();
   const { renderOffset = { x: 0, y: 0, z: 0 } } = interactive;
 
-  const { x: rotationX, y: rotationY, z: rotationZ } = interactive.rigidBody.rotation();
 
   interactive.object3d.position.set(x, y, z).add(renderOffset);
-  // interactive.object3d.rotation.set(rotationX, rotationY, rotationZ);
+
+  const { x: rotationX, y: rotationY, z: rotationZ, w: rotationW } = interactive.rigidBody.rotation();
+  interactive.object3d.rotation.setFromQuaternion(new Quaternion(rotationX, rotationY, rotationZ, rotationW))
 }
 
 // Handles rendering and physics. Naming things is hard.
