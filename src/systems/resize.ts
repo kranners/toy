@@ -1,4 +1,4 @@
-import { Engine, System } from "..";
+import { Engine, System } from "../lib/types";
 
 const handleWindowResize = (engine: Engine) => {
   engine.renderer.setSize(window.innerWidth, window.innerHeight, true);

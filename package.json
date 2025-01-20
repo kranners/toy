@@ -6,7 +6,7 @@
   "scripts": {
     "start": "webpack serve",
     "build": "tsc && vite build",
-    "test:browser": "vitest"
+    "test": "vitest"
   },
   "keywords": [],
   "author": "",

@@ -1,4 +1,5 @@
-import { Component, query, System, State, Engine } from "..";
+import { query } from "../lib/queries";
+import { Component, Engine, State, System } from "../lib/types";
 
 export type Lifecycleable = Component & {
   onInit?: (state: State, engine: Engine) => void;

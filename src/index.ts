@@ -1,58 +1,10 @@
-import type { World } from "@dimforge/rapier3d";
 import { tick } from "./systems/lifecycle";
 import { PerspectiveCamera, Scene, WebGLRenderer } from "three";
 import { state } from "./content";
 import { base } from "./systems/base";
 import { resize } from "./systems/resize";
-import { logCurrentState } from "./systems/log-current-state";
-
-export type Entity = string;
-
-export type Component = Record<string, unknown>;
-
-export type Predicate<C extends Component> = (component: Component) => component is C;
-
-export type State = Record<Entity, Component[]>;
-
-export type Engine = {
-  renderer: WebGLRenderer;
-  scene: Scene;
-  camera: PerspectiveCamera;
-
-  world: World;
-}
-
-export type System = {
-  update?: (state: State, engine: Engine) => void;
-  init?: (state: State, engine: Engine) => void;
-}
-
-export function query<C extends Component>(
-  state: State,
-  predicate: Predicate<C>
-): C[] {
-  const components = Object.values(state).flat();
-  return components.filter(predicate);
-}
-
-export function queryEntity<
-  S extends State,
-  C extends Component,
-  E extends Entity,
->(
-  state: S,
-  predicate: Predicate<C>,
-  entity: E,
-): C | undefined {
-  if (!(entity in state)) {
-    return undefined;
-  }
-
-  return state[entity].find(predicate);
-}
-
-export type Rapier = typeof import("@dimforge/rapier3d");
-export const GRAVITY = { x: 0.0, y: -9.81, z: 0.0 };
+import { Engine, Rapier, System } from "./lib/types";
+import { GRAVITY } from "./lib/constants";
 
 import("@dimforge/rapier3d").then((rapier: Rapier) => {
   if (document.body.children.length > 1) {

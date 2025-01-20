@@ -25,7 +25,7 @@ const config: webpack.Configuration = {
   experiments: {
     asyncWebAssembly: true,
   },
-  plugins: [new HtmlWebpackPlugin({ template: "./index.html" })],
+  plugins: [new HtmlWebpackPlugin({ template: "src/index.html" })],
 };
 
 export default config;

@@ -1,6 +1,6 @@
 import { OrbitControls } from "three/examples/jsm/Addons.js";
-import { Engine, State } from "..";
 import { Lifecycleable } from "../systems/lifecycle";
+import { Engine, State } from "../lib/types";
 
 let orbitControls: OrbitControls;
 

@@ -1,8 +1,6 @@
 import { BoxGeometry, Mesh, MeshBasicMaterial } from "three";
 import { ColliderDesc, RigidBodyDesc, World as RapierWorld } from "@dimforge/rapier3d";
-import { Lifecycleable } from "../systems/lifecycle";
-import { Interactive, isInteractive } from "../systems/base";
-import { queryEntity, State } from "..";
+import { Interactive } from "../systems/base";
 
 const geometry = new BoxGeometry();
 const material = new MeshBasicMaterial({
@@ -24,27 +22,11 @@ const createRigidBody = (rapierWorld: RapierWorld) => {
   );
 }
 
-export const cube: [Interactive, Lifecycleable] = [
+export const cube: [Interactive] = [
   {
     object3d,
     desc,
     createRigidBody,
   },
-  {
-    onUpdate: (state: State) => {
-      const interactive = queryEntity(state, isInteractive, "cube");
-
-      if (interactive === undefined) {
-        return;
-      }
-
-      // const translation = interactive.rigidBody?.translation?.();
-      // const position = interactive.object3d.position;
-
-      // console.table({
-      //   translation, position
-      // });
-    },
-  }
 ];
 

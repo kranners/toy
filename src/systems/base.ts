@@ -1,6 +1,7 @@
-import { Component, query, System, State, Engine } from "..";
 import type { ColliderDesc, RigidBody, World as RapierWorld, Vector, Rotation } from "@dimforge/rapier3d";
 import { Object3D, Quaternion, Vector3Like } from "three";
+import { Component, Engine, State, System } from "../lib/types";
+import { query } from "../lib/queries";
 
 export type Interactive = Component & {
   object3d: Object3D;

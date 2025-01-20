@@ -1,4 +1,4 @@
-import { System, State, Engine } from "..";
+import { Engine, State, System } from "../lib/types";
 
 let hasLoggedUpdate = false;
 let hasLoggedInit = false;
