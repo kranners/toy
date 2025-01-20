@@ -18,7 +18,7 @@ export type Engine = {
 }
 
 export type System = {
-  update?: (state: State, engine: Engine) => void;
+  tick?: (state: State, engine: Engine) => void;
   init?: (state: State, engine: Engine) => void;
 }
 

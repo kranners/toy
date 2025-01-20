@@ -12,7 +12,7 @@ export const controls: [Lifecycleable] = [
         engine.renderer.domElement
       );
     },
-    onUpdate: () => {
+    onTick: () => {
       orbitControls.update();
     }
   },
