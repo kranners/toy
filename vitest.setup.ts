@@ -10,13 +10,14 @@ beforeAll(async () => {
 
   const world = new rapier.World(GRAVITY);
 
-  const { clientWidth: width, clientHeight: height } = document.body;
-
   const renderer = new WebGLRenderer();
-  renderer.setSize(width, height);
+  renderer.setSize(300, 300);
 
   const scene = new Scene();
-  const camera = new PerspectiveCamera(90, width / height);
+  const camera = new PerspectiveCamera(90);
+
+  camera.position.set(1, 1, 1);
+  camera.lookAt(0, 0, 0);
 
   testEngine = { renderer, scene, camera, world };
 
@@ -30,7 +31,7 @@ beforeAll(async () => {
 });
 
 beforeEach(() => {
-  testEngine.scene = new Scene();
+  testEngine = { ...testEngine, scene: new Scene() };
 });
 
 afterEach(() => {

@@ -9,6 +9,10 @@ export default defineConfig({
       enabled: true,
       provider: 'playwright',
       testerHtmlPath: "tests/index.html",
+      viewport: {
+        width: 300,
+        height: 300,
+      },
       instances: [
         { browser: 'chromium' },
       ],
