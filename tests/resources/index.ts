@@ -15,7 +15,7 @@ TEST_SKY.up = new Vector3(0, 0.5, 0);
 
 export const runTicks = (system: System, state: State, engine: Engine, count: number = 50) => {
   for (let iteration = 0; iteration < count; iteration++) {
-    system.update?.(state, engine);
+    system.tick?.(state, engine);
   }
 }
 

@@ -1,16 +1,16 @@
 import { Engine, State, System } from "../lib/types";
 
-let hasLoggedUpdate = false;
+let hasLoggedTick = false;
 let hasLoggedInit = false;
 
 export const logCurrentState: System = {
-  update: (state: State, engine: Engine) => {
-    if (hasLoggedUpdate) {
+  tick: (state: State, engine: Engine) => {
+    if (hasLoggedTick) {
       return;
     }
 
-    hasLoggedUpdate = true;
-    console.debug("Update", state, engine);
+    hasLoggedTick = true;
+    console.debug("Tick", state, engine);
   },
   init: (state: State, engine: Engine) => {
     if (hasLoggedInit) {

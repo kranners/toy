@@ -78,13 +78,13 @@ const syncInteractivePosition = (interactive: Interactive): void => {
 }
 
 type BaseSystem = System & {
-  update: (state: State, engine: Engine) => void;
+  tick: (state: State, engine: Engine) => void;
   init: (state: State, engine: Engine) => void;
 };
 
 // Handles rendering and physics. Naming things is hard.
 export const base: BaseSystem = {
-  update: (state: State, engine: Engine) => {
+  tick: (state: State, engine: Engine) => {
     engine.world.step();
 
     const interactives = query(state, isInteractive);

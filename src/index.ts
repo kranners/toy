@@ -40,11 +40,11 @@ import("@dimforge/rapier3d").then((rapier: Rapier) => {
 
   renderer.setAnimationLoop(() => {
     systems.forEach((system) => {
-      if (system.update === undefined) {
+      if (system.tick === undefined) {
         return;
       }
 
-      system.update(state, engine);
+      system.tick(state, engine);
     })
   });
 });
