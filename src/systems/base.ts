@@ -1,4 +1,4 @@
-import type { ColliderDesc, RigidBody, World as RapierWorld, Vector, Rotation } from "@dimforge/rapier3d";
+import type { ColliderDesc, RigidBody, Vector, Rotation, World } from "@dimforge/rapier3d";
 import { Object3D, Quaternion, Vector3Like } from "three";
 import { Component, Engine, State, System } from "../lib/types";
 import { query } from "../lib/queries";
@@ -8,7 +8,7 @@ export type Interactive = Component & {
   desc?: ColliderDesc;
   renderOffset?: Vector3Like;
 
-  createRigidBody?: (rapierWorld: RapierWorld) => RigidBody;
+  createRigidBody?: (world: World) => RigidBody;
   rigidBody?: RigidBody;
 
   simulated?: boolean;

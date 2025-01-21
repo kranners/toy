@@ -1,21 +1,35 @@
 import { describe, expect, it } from "vitest";
 import { base, Interactive } from "../../src/systems/base";
 import { testEngine } from "../../vitest.setup";
-import { TEST_CUBE_COLLIDER, TEST_CUBE_MESH, TEST_SKY, runTicks } from "../resources";
+import { CREATE_TEST_CUBE_RIGID_BODY, TEST_CUBE_COLLIDER, TEST_CUBE_MESH, TEST_SKY, runTicks } from "../resources";
 
 describe("base system", () => {
-  // describe("given a state with a rigid body", () => {
-  // it("falls down after an update", () => {
-  //   const state = buildState();
-  //   base.init(state, testEngine);
-  //
-  //   const startingPosition = state.cube[0].object3d.position;
-  //   runTicks(base, state, testEngine);
-  //
-  //   const endingPosition = state.cube[0].object3d.position;
-  //   expect(endingPosition.y).toBeGreaterThan(startingPosition.y);
-  // });
-  // });
+  describe("given a state with a rigid body", () => {
+    const buildState = () => ({
+      cube: [{
+        object3d: TEST_CUBE_MESH,
+        desc: TEST_CUBE_COLLIDER,
+        createRigidBody: CREATE_TEST_CUBE_RIGID_BODY,
+      } as Interactive],
+    });
+
+    it("falls down after an update", () => {
+      const state = buildState();
+      base.init(state, testEngine);
+
+      const { y: startingY } = state.cube[0].object3d.position;
+      runTicks(base, state, testEngine);
+      const { y: endingY } = state.cube[0].object3d.position;
+
+      expect(startingY).toBeGreaterThan(endingY);
+    });
+
+    it("sets rigidBody after init", () => {
+      const state = buildState();
+      base.init(state, testEngine);
+      expect(state.cube[0].rigidBody).toBeDefined();
+    })
+  });
 
   describe("given a state with a collider desc", () => {
     const buildState = () => ({

@@ -1,5 +1,5 @@
 import { BoxGeometry, Mesh, MeshBasicMaterial } from "three";
-import { ColliderDesc, RigidBodyDesc, World as RapierWorld } from "@dimforge/rapier3d";
+import { ColliderDesc, RigidBodyDesc, World } from "@dimforge/rapier3d";
 import { Interactive } from "../systems/base";
 
 const geometry = new BoxGeometry();
@@ -11,8 +11,8 @@ const object3d = new Mesh(geometry, material);
 
 const desc = ColliderDesc.cuboid(1, 1, 1);
 
-const createRigidBody = (rapierWorld: RapierWorld) => {
-  return rapierWorld.createRigidBody(
+const createRigidBody = (world: World) => {
+  return world.createRigidBody(
     RigidBodyDesc.dynamic().setTranslation(0.00, 5.00, 0.00).setRotation({
       x: 0.5,
       y: 1.0,

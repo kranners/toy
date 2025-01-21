@@ -3,7 +3,7 @@ import { Engine, State, System } from "../lib/types";
 let hasLoggedTick = false;
 let hasLoggedInit = false;
 
-export const logCurrentState: System = {
+export const logCurrentState: Required<System> = {
   tick: (state: State, engine: Engine) => {
     if (hasLoggedTick) {
       return;
