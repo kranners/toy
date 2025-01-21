@@ -1,15 +1,8 @@
-import { BoxGeometry, Mesh, MeshBasicMaterial } from "three";
 import { ColliderDesc, RigidBodyDesc, World } from "@dimforge/rapier3d";
-import { Interactive } from "../systems/base";
+import { HasModel } from "../systems/load-models";
+import { Physical } from "../systems/physics";
 
-const geometry = new BoxGeometry();
-const material = new MeshBasicMaterial({
-  color: 0xffffff,
-  wireframe: true,
-});
-const object3d = new Mesh(geometry, material);
-
-const desc = ColliderDesc.cuboid(1, 1, 1);
+const desc = ColliderDesc.cuboid(0.85, 0.85, 0.85);
 
 const createRigidBody = (world: World) => {
   return world.createRigidBody(
@@ -22,5 +15,9 @@ const createRigidBody = (world: World) => {
   );
 }
 
-export const cube: Interactive = { object3d, desc, createRigidBody };
+export const cube: Physical & HasModel = {
+  assetPath: "box.glb",
+  desc,
+  createRigidBody,
+};
 

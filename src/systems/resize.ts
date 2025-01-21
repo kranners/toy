@@ -10,6 +10,7 @@ const handleWindowResize = (engine: Engine) => {
 }
 
 export const resize: System = {
+  tick: () => { },
   init: (_, engine: Engine) => {
     window.addEventListener("resize", () => handleWindowResize(engine));
   }

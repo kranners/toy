@@ -18,8 +18,8 @@ export type Engine = {
 }
 
 export type System = {
-  tick?: (state: State, engine: Engine) => void;
-  init?: (state: State, engine: Engine) => void;
+  init: (state: State, engine: Engine) => void | Promise<void>;
+  tick: (state: State, engine: Engine) => void;
 }
 
 export type Rapier = typeof import("@dimforge/rapier3d");
