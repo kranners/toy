@@ -22,11 +22,5 @@ const createRigidBody = (world: World) => {
   );
 }
 
-export const cube: [Interactive] = [
-  {
-    object3d,
-    desc,
-    createRigidBody,
-  },
-];
+export const cube: Interactive = { object3d, desc, createRigidBody };
 

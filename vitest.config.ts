@@ -4,6 +4,13 @@ import { defineConfig } from 'vitest/config'
 export default defineConfig({
   plugins: [wasm()],
   test: {
+    exclude: [
+      "**/.direnv/**",
+      '**/node_modules/**',
+      '**/dist/**',
+      '**/.{git,cache,output,temp}/**',
+      '**/*.config.*',
+    ],
     setupFiles: ["vitest.setup.ts"],
     browser: {
       enabled: true,

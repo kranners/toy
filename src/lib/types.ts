@@ -7,7 +7,7 @@ export type Component = Record<string, unknown>;
 
 export type Predicate<C extends Component> = (component: Component) => component is C;
 
-export type State = Record<Entity, Component[]>;
+export type State = Record<Entity, Component>;
 
 export type Engine = {
   renderer: WebGLRenderer;

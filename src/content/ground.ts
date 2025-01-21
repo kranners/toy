@@ -8,10 +8,4 @@ const object3d = new Mesh(geometry, material);
 
 const desc = ColliderDesc.cuboid(10.0, 10.0, 10.0).setTranslation(0, -11.0, 0);
 
-export const ground: [Interactive] = [
-  {
-    object3d,
-    desc,
-    renderOffset: new Vector3(0, 11 / 2, 0)
-  },
-];
+export const ground: Interactive = { object3d, desc, renderOffset: new Vector3(0, 11 / 2, 0) };

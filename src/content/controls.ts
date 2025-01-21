@@ -4,16 +4,14 @@ import { Engine, State } from "../lib/types";
 
 let orbitControls: OrbitControls;
 
-export const controls: [Lifecycleable] = [
-  {
-    onInit: (_: State, engine: Engine) => {
-      orbitControls = new OrbitControls(
-        engine.camera,
-        engine.renderer.domElement
-      );
-    },
-    onTick: () => {
-      orbitControls.update();
-    }
+export const controls: Lifecycleable = {
+  onInit: (_: State, engine: Engine) => {
+    orbitControls = new OrbitControls(
+      engine.camera,
+      engine.renderer.domElement
+    );
   },
-];
+  onTick: () => {
+    orbitControls.update();
+  }
+};

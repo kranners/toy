@@ -10,6 +10,5 @@ const sunPosition = new Vector3().setFromSphericalCoords(1, Math.PI / 2, Math.PI
 
 object3d.material.uniforms.sunPosition.value = sunPosition;
 
-export const sky: [Interactive] = [
-  { object3d },
-]
+export const sky: Interactive = { object3d };
+

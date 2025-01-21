@@ -5,21 +5,21 @@ import { CREATE_TEST_CUBE_RIGID_BODY, TEST_CUBE_COLLIDER, TEST_CUBE_MESH, TEST_S
 
 describe("base system", () => {
   describe("given a state with a rigid body", () => {
-    const buildState = () => ({
-      cube: [{
+    const buildState = (): { cube: Interactive } => ({
+      cube: {
         object3d: TEST_CUBE_MESH,
         desc: TEST_CUBE_COLLIDER,
         createRigidBody: CREATE_TEST_CUBE_RIGID_BODY,
-      } as Interactive],
+      },
     });
 
     it("falls down after an update", () => {
       const state = buildState();
       base.init(state, testEngine);
 
-      const { y: startingY } = state.cube[0].object3d.position;
+      const { y: startingY } = state.cube.object3d.position;
       runTicks(base, state, testEngine);
-      const { y: endingY } = state.cube[0].object3d.position;
+      const { y: endingY } = state.cube.object3d.position;
 
       expect(startingY).toBeGreaterThan(endingY);
     });
@@ -27,19 +27,22 @@ describe("base system", () => {
     it("sets rigidBody after init", () => {
       const state = buildState();
       base.init(state, testEngine);
-      expect(state.cube[0].rigidBody).toBeDefined();
+      expect(state.cube.rigidBody).toBeDefined();
     })
   });
 
   describe("given a state with a collider desc", () => {
-    const buildState = () => ({
-      cube: [{ object3d: TEST_CUBE_MESH, desc: TEST_CUBE_COLLIDER } as Interactive],
+    const buildState = (): { cube: Interactive } => ({
+      cube: {
+        object3d: TEST_CUBE_MESH,
+        desc: TEST_CUBE_COLLIDER,
+      },
     });
 
     it("sets cube rendered to true", () => {
       const state = buildState();
       base.init(state, testEngine);
-      expect(state.cube[0].rendered).toBeTruthy();
+      expect(state.cube.rendered).toBeTruthy();
     });
 
     it("adds the cube to the scene", () => {
@@ -50,19 +53,21 @@ describe("base system", () => {
     it("sets cube simulated to true", () => {
       const state = buildState();
       base.init(state, testEngine);
-      expect(state.cube[0].simulated).toBeTruthy();
+      expect(state.cube.simulated).toBeTruthy();
     });
   })
 
   describe("given a state with a single object3d", () => {
-    const buildState = () => ({
-      sky: [{ object3d: TEST_SKY } as Interactive],
+    const buildState = (): { sky: Interactive } => ({
+      sky: {
+        object3d: TEST_SKY,
+      },
     });
 
     it("sets sky rendered to true", () => {
       const state = buildState();
       base.init(state, testEngine);
-      expect(state.sky[0].rendered).toBeTruthy();
+      expect(state.sky.rendered).toBeTruthy();
     });
 
     it("adds the sky to the scene", () => {
