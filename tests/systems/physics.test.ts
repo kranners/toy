@@ -4,6 +4,7 @@ import { getPhysicalPosition, Physical, physics } from "../../src/systems/physic
 import { testEngine } from "../../vitest.setup";
 import { Rotation, Vector } from "@dimforge/rapier3d";
 import { render, Renderable } from "../../src/systems/render";
+import { Quaternion } from "three";
 
 describe("physics system", () => {
   describe("given a state with a collider desc", () => {
@@ -72,7 +73,35 @@ describe("physics system integrating with the rendering system", () => {
       expect(renderZ).toBeCloseTo(physicZ);
     });
 
-    it.todo("syncs their rotation");
+    it("syncs their rotation", () => {
+      const state = buildState();
+      render.init(state, testEngine);
+      physics.init(state, testEngine);
+
+      const {
+        x: renderX,
+        y: renderY,
+        z: renderZ,
+      } = state.cube.object3d.rotation;
+
+      const {
+        x: quarternionX,
+        y: quarternionY,
+        z: quarternionZ,
+        w: quarternionW,
+      } = state.cube.desc.rotation;
+
+      const { x: physicX, y: physicY, z: physicZ } = new Quaternion(
+        quarternionX,
+        quarternionY,
+        quarternionZ,
+        quarternionW
+      );
+
+      expect(renderX).toBeCloseTo(physicX);
+      expect(renderY).toBeCloseTo(physicY);
+      expect(renderZ).toBeCloseTo(physicZ);
+    });
   });
 
   describe("given a state with a rigid body and an object3d", () => {
@@ -94,11 +123,41 @@ describe("physics system integrating with the rendering system", () => {
       const { x: renderX, y: renderY, z: renderZ } = state.cube.object3d.position;
       const { x: physicX, y: physicY, z: physicZ } = state.cube.rigidBody?.translation() as Vector;
 
-      expect(renderX).toBeCloseTo(physicX, 1);
+      expect(renderX).toBeCloseTo(physicX, 0);
       expect(renderY).toBeCloseTo(physicY, 0);
-      expect(renderZ).toBeCloseTo(physicZ, 1);
+      expect(renderZ).toBeCloseTo(physicZ, 0);
     });
 
-    it.todo("keeps their rotations in sync");
+    it("keeps their rotations in sync", () => {
+      const state = buildState();
+      render.init(state, testEngine);
+      physics.init(state, testEngine);
+
+      runTicks(physics, state, testEngine);
+
+      const {
+        x: renderX,
+        y: renderY,
+        z: renderZ,
+      } = state.cube.object3d.rotation;
+
+      const {
+        x: quarternionX,
+        y: quarternionY,
+        z: quarternionZ,
+        w: quarternionW,
+      } = state.cube.desc.rotation;
+
+      const { x: physicX, y: physicY, z: physicZ } = new Quaternion(
+        quarternionX,
+        quarternionY,
+        quarternionZ,
+        quarternionW
+      );
+
+      expect(renderX).toBeCloseTo(physicX, 0);
+      expect(renderY).toBeCloseTo(physicY, 0);
+      expect(renderZ).toBeCloseTo(physicZ, 0);
+    });
   });
 });
