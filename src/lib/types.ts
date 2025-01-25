@@ -1,5 +1,6 @@
 import { World } from "@dimforge/rapier3d";
 import { PerspectiveCamera, Scene, WebGLRenderer } from "three";
+import { GLTFLoader } from "three/examples/jsm/Addons";
 
 export type Entity = string;
 
@@ -15,6 +16,7 @@ export type Engine = {
   camera: PerspectiveCamera;
 
   world: World;
+  gltfLoader: GLTFLoader;
 }
 
 export type System = {

@@ -1,10 +1,8 @@
-import { Group, Vector3Like } from "three";
-import { Component, State, System } from "../lib/types";
+import { Vector3Like } from "three";
+import { Component, Engine, State, System } from "../lib/types";
 import { query } from "../lib/queries";
-import { GLTF, GLTFLoader } from "three/examples/jsm/Addons";
+import { GLTF } from "three/examples/jsm/Addons";
 import { Renderable } from "./render";
-
-const loader = new GLTFLoader();
 
 export type HasModel = Component & {
   assetPath: string;
@@ -19,38 +17,39 @@ export const isHasModel = (component: Component): component is HasModel => {
   return "assetPath" in component;
 }
 
-const loadAndSetModel = async (hasModel: HasModel): Promise<HasModel & Renderable> => {
+const loadAndSetModel = async (hasModel: HasModel, engine: Engine): Promise<HasModel & Renderable> => {
   return new Promise((resolve, reject) => {
-    loader.load(
-      hasModel.assetPath,
-      (data: GLTF) => {
-        const { scene } = data;
+    const onProgress = ({ loaded, total }: ProgressEvent) => {
+      console.debug(`loaded ${loaded} out of ${total}`);
+    }
 
-        scene.traverse((object3d) => {
-          object3d.castShadow = hasModel.castShadow ?? false;
-          object3d.receiveShadow = hasModel.receiveShadow ?? false;
-        });
+    const onLoad = (data: GLTF) => {
+      const { scene } = data;
 
-        hasModel.object3d = scene;
-        hasModel.loaded = true;
-        resolve(hasModel as HasModel & Renderable);
-      },
-      ({ loaded, total }) => console.debug(`loaded ${loaded} out of ${total}`),
-      reject,
-    )
+      scene.traverse((object3d) => {
+        object3d.castShadow = hasModel.castShadow ?? false;
+        object3d.receiveShadow = hasModel.receiveShadow ?? false;
+      });
+
+      hasModel.object3d = scene;
+      hasModel.loaded = true;
+      resolve(hasModel as HasModel & Renderable);
+    };
+
+    engine.gltfLoader.load(hasModel.assetPath, onLoad, onProgress, reject);
   });
 }
 
 export const loadModels: System = {
-  init: async (state: State) => {
+  init: async (state: State, engine: Engine) => {
     const hasModels = query(state, isHasModel).filter((hasModel) => !hasModel.loaded);
 
-    const loading = hasModels.map(loadAndSetModel);
+    const loading = hasModels.map((hasNote) => loadAndSetModel(hasNote, engine));
     await Promise.all(loading);
   },
-  tick: (state: State) => {
+  tick: (state: State, engine: Engine) => {
     const hasModels = query(state, isHasModel).filter((hasModel) => !hasModel.loaded);
-    hasModels.forEach(loadAndSetModel);
+    hasModels.forEach((hasNote) => loadAndSetModel(hasNote, engine));
   }
 } as const;
 
