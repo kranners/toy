@@ -13,7 +13,16 @@ const config: webpack.Configuration = {
         test: /\.ts?$/,
         use: 'ts-loader',
         exclude: /node_modules/,
-      }
+      },
+      {
+        test: /\.(glb|gltf)$/,
+        use: [
+          {
+            loader: 'file-loader',
+            options: { outputPath: 'assets/models/' }
+          }
+        ]
+      },
     ]
   },
   resolve: {
