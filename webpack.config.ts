@@ -11,19 +11,19 @@ const config: webpack.Configuration = {
     rules: [
       {
         test: /\.ts?$/,
-        use: 'ts-loader',
+        use: "ts-loader",
         exclude: /node_modules/,
       },
       {
         test: /\.(glb|gltf)$/,
         use: [
           {
-            loader: 'file-loader',
-            options: { outputPath: 'assets/models/' }
-          }
-        ]
+            loader: "file-loader",
+            options: { outputPath: "assets/models/" },
+          },
+        ],
       },
-    ]
+    ],
   },
   resolve: {
     extensions: [".ts", ".js", ".html", ".json"],
@@ -38,4 +38,3 @@ const config: webpack.Configuration = {
 };
 
 export default config;
-

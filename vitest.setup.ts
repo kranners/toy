@@ -46,4 +46,3 @@ afterEach(() => {
   testEngine.renderer.render(testEngine.scene, testEngine.camera);
   vi.clearAllMocks();
 });
-
