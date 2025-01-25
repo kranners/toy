@@ -11,4 +11,4 @@ export const state: State = {
   ground,
   sky,
   atmosphere,
-}
+};

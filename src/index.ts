@@ -19,10 +19,10 @@ import("@dimforge/rapier3d").then(async (rapier: Rapier) => {
   const renderer = new WebGLRenderer();
   const scene = new Scene();
   const camera = new PerspectiveCamera(
-    90,                                     // FOV
+    90, // FOV
     window.innerWidth / window.innerHeight, // Aspect ratio
-    0.1,                                    // Min render distance
-    1000                                    // Max render distance
+    0.1, // Min render distance
+    1000, // Max render distance
   );
   const gltfLoader = new GLTFLoader();
 
@@ -51,7 +51,6 @@ import("@dimforge/rapier3d").then(async (rapier: Rapier) => {
       }
 
       system.tick(state, engine);
-    })
+    });
   });
 });
-

@@ -1,4 +1,10 @@
-import { ColliderDesc, RigidBody, Rotation, Vector, World } from "@dimforge/rapier3d";
+import {
+  ColliderDesc,
+  RigidBody,
+  Rotation,
+  Vector,
+  World,
+} from "@dimforge/rapier3d";
 import { Component, Engine, State, System } from "../lib/types";
 import { Quaternion, Vector3Like } from "three";
 import { isRenderable, Renderable } from "./render";
@@ -11,23 +17,28 @@ export type Physical = Component & {
   createRigidBody?: (world: World) => RigidBody;
   rigidBody?: RigidBody;
   simulated?: boolean;
-}
+};
 
 export const isPhysical = (component: Component): component is Physical => {
   return "desc" in component || "createRigidBody" in component;
-}
+};
 
-const isPhysicalAndRenderable = (component: Component): component is Physical & Renderable => {
+const isPhysicalAndRenderable = (
+  component: Component,
+): component is Physical & Renderable => {
   return isPhysical(component) && isRenderable(component);
-}
+};
 
-const getRigidBody = (physical: Physical, engine: Engine): RigidBody | undefined => {
+const getRigidBody = (
+  physical: Physical,
+  engine: Engine,
+): RigidBody | undefined => {
   if (!physical.rigidBody && physical.createRigidBody) {
     physical.rigidBody = physical.createRigidBody(engine.world);
   }
 
   return physical.rigidBody;
-}
+};
 
 const addPhysicalToWorld = (physical: Physical, engine: Engine) => {
   if (physical.simulated) {
@@ -40,9 +51,11 @@ const addPhysicalToWorld = (physical: Physical, engine: Engine) => {
 
     physical.simulated = true;
   }
-}
+};
 
-export const getPhysicalPosition = (physical: Physical): [Vector, Rotation] | undefined => {
+export const getPhysicalPosition = (
+  physical: Physical,
+): [Vector, Rotation] | undefined => {
   if (physical.desc === undefined) {
     return;
   }
@@ -52,7 +65,7 @@ export const getPhysicalPosition = (physical: Physical): [Vector, Rotation] | un
   }
 
   return [physical.rigidBody.translation(), physical.rigidBody.rotation()];
-}
+};
 
 const syncPhysicsAndRenderedPositions = (physical: Physical) => {
   if (!isPhysicalAndRenderable(physical)) {
@@ -72,9 +85,13 @@ const syncPhysicsAndRenderedPositions = (physical: Physical) => {
 
   const { renderOffset = { x: 0, y: 0, z: 0 } } = physical;
 
-  physical.object3d.position.set(translationX, translationY, translationZ).add(renderOffset);
-  physical.object3d.rotation.setFromQuaternion(new Quaternion(rotationX, rotationY, rotationZ, rotationW));
-}
+  physical.object3d.position
+    .set(translationX, translationY, translationZ)
+    .add(renderOffset);
+  physical.object3d.rotation.setFromQuaternion(
+    new Quaternion(rotationX, rotationY, rotationZ, rotationW),
+  );
+};
 
 const addAndSyncAllPhysicals = (state: State, engine: Engine) => {
   const physicals = query(state, isPhysical);
@@ -82,7 +99,7 @@ const addAndSyncAllPhysicals = (state: State, engine: Engine) => {
     addPhysicalToWorld(physical, engine);
     syncPhysicsAndRenderedPositions(physical);
   });
-}
+};
 
 export const physics: System = {
   tick: (state: State, engine: Engine) => {
@@ -90,5 +107,4 @@ export const physics: System = {
     engine.world.step();
   },
   init: addAndSyncAllPhysicals,
-}
-
+};

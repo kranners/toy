@@ -20,4 +20,4 @@ export const logCurrentState: Required<System> = {
     hasLoggedInit = true;
     console.debug("Init", state, engine);
   },
-}
+};

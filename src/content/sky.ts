@@ -6,9 +6,12 @@ import { Vector3 } from "three";
 const object3d = new Sky();
 object3d.scale.setScalar(45_000);
 
-const sunPosition = new Vector3().setFromSphericalCoords(1, Math.PI / 2, Math.PI);
+const sunPosition = new Vector3().setFromSphericalCoords(
+  1,
+  Math.PI / 2,
+  Math.PI,
+);
 
 object3d.material.uniforms.sunPosition.value = sunPosition;
 
 export const sky: Renderable = { object3d };
-

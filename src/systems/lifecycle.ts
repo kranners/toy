@@ -4,11 +4,13 @@ import { Component, Engine, State, System } from "../lib/types";
 export type Lifecycleable = Component & {
   onInit?: (state: State, engine: Engine) => void;
   onTick: (state: State, engine: Engine) => void;
-}
+};
 
-export const isLifecycleable = (component: Component): component is Lifecycleable => {
+export const isLifecycleable = (
+  component: Component,
+): component is Lifecycleable => {
   return "onTick" in component;
-}
+};
 
 export const tick: System = {
   tick: (state: State, engine: Engine) => {
@@ -22,5 +24,5 @@ export const tick: System = {
     tickables.forEach((tickable) => {
       tickable.onInit?.(state, engine);
     });
-  }
-}
+  },
+};

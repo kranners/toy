@@ -7,7 +7,7 @@ const FAKE_MODEL_PATH = "cone.glb";
 describe("model loading system", () => {
   describe("given a state with a valid asset path", () => {
     const buildState = (): { box: HasModel } => ({
-      box: { assetPath: FAKE_MODEL_PATH }
+      box: { assetPath: FAKE_MODEL_PATH },
     });
 
     it("sets loaded to true", () => {
@@ -26,7 +26,6 @@ describe("model loading system", () => {
         expect.anything(),
         expect.anything(),
       );
-    })
+    });
   });
 });
-

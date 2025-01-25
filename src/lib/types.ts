@@ -6,7 +6,9 @@ export type Entity = string;
 
 export type Component = Record<string, unknown>;
 
-export type Predicate<C extends Component> = (component: Component) => component is C;
+export type Predicate<C extends Component> = (
+  component: Component,
+) => component is C;
 
 export type State = Record<Entity, Component>;
 
@@ -17,11 +19,11 @@ export type Engine = {
 
   world: World;
   gltfLoader: GLTFLoader;
-}
+};
 
 export type System = {
   init: (state: State, engine: Engine) => void | Promise<void>;
   tick: (state: State, engine: Engine) => void;
-}
+};
 
 export type Rapier = typeof import("@dimforge/rapier3d");

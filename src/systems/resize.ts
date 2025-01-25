@@ -7,11 +7,13 @@ const handleWindowResize = (engine: Engine) => {
   engine.camera.updateProjectionMatrix();
 
   engine.renderer.render(engine.scene, engine.camera);
-}
+};
 
 export const resize: System = {
-  tick: () => { },
+  tick: () => {
+    // do nothing.
+  },
   init: (_, engine: Engine) => {
     window.addEventListener("resize", () => handleWindowResize(engine));
-  }
-}
+  },
+};

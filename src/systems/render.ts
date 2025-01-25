@@ -10,7 +10,7 @@ export type Renderable = Component & {
 
 export const isRenderable = (component: Component): component is Renderable => {
   return "object3d" in component;
-}
+};
 
 const addRenderableToScene = (renderable: Renderable, engine: Engine) => {
   if (renderable.rendered) {
@@ -19,7 +19,7 @@ const addRenderableToScene = (renderable: Renderable, engine: Engine) => {
 
   engine.scene.add(renderable.object3d);
   renderable.rendered = true;
-}
+};
 
 const addAllMissingRenderablesToScene = (state: State, engine: Engine) => {
   const renderables = query(state, isRenderable);
@@ -27,7 +27,7 @@ const addAllMissingRenderablesToScene = (state: State, engine: Engine) => {
   renderables.forEach((renderable) => {
     addRenderableToScene(renderable, engine);
   });
-}
+};
 
 export const render: System = {
   tick: (state: State, engine: Engine) => {
@@ -36,4 +36,3 @@ export const render: System = {
   },
   init: addAllMissingRenderablesToScene,
 } as const;
-

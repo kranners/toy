@@ -1,4 +1,10 @@
-import { BoxGeometry, DoubleSide, Mesh, MeshBasicMaterial, Vector3 } from "three";
+import {
+  BoxGeometry,
+  DoubleSide,
+  Mesh,
+  MeshBasicMaterial,
+  Vector3,
+} from "three";
 import { ColliderDesc } from "@dimforge/rapier3d";
 import { Renderable } from "../systems/render";
 
@@ -8,4 +14,8 @@ const object3d = new Mesh(geometry, material);
 
 const desc = ColliderDesc.cuboid(10.0, 10.0, 10.0).setTranslation(0, -11.0, 0);
 
-export const ground: Renderable = { object3d, desc, renderOffset: new Vector3(0, 11 / 2, 0) };
+export const ground: Renderable = {
+  object3d,
+  desc,
+  renderOffset: new Vector3(0, 11 / 2, 0),
+};

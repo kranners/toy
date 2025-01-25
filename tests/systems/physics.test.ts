@@ -1,6 +1,15 @@
 import { describe, expect, it } from "vitest";
-import { CREATE_TEST_CUBE_RIGID_BODY, runTicks, TEST_CUBE_COLLIDER, TEST_CUBE_MESH } from "../resources";
-import { getPhysicalPosition, Physical, physics } from "../../src/systems/physics";
+import {
+  CREATE_TEST_CUBE_RIGID_BODY,
+  runTicks,
+  TEST_CUBE_COLLIDER,
+  TEST_CUBE_MESH,
+} from "../resources";
+import {
+  getPhysicalPosition,
+  Physical,
+  physics,
+} from "../../src/systems/physics";
 import { testEngine } from "../../vitest.setup";
 import { Rotation, Vector } from "@dimforge/rapier3d";
 import { render, Renderable } from "../../src/systems/render";
@@ -22,7 +31,7 @@ describe("physics system", () => {
       physics.init(state, testEngine);
       expect(state.cube.simulated).toBeTruthy();
     });
-  })
+  });
 
   describe("given a state with a rigid body", () => {
     const buildState = (): { cube: Physical } => ({
@@ -36,9 +45,15 @@ describe("physics system", () => {
       const state = buildState();
       physics.init(state, testEngine);
 
-      const [startingPosition] = getPhysicalPosition(state.cube) as [Vector, Rotation];
+      const [startingPosition] = getPhysicalPosition(state.cube) as [
+        Vector,
+        Rotation,
+      ];
       runTicks(physics, state, testEngine);
-      const [endingPosition] = getPhysicalPosition(state.cube) as [Vector, Rotation];
+      const [endingPosition] = getPhysicalPosition(state.cube) as [
+        Vector,
+        Rotation,
+      ];
 
       expect(startingPosition.y).toBeGreaterThan(endingPosition.y);
     });
@@ -47,7 +62,7 @@ describe("physics system", () => {
       const state = buildState();
       physics.init(state, testEngine);
       expect(state.cube.rigidBody).toBeDefined();
-    })
+    });
   });
 });
 
@@ -65,8 +80,16 @@ describe("physics system integrating with the rendering system", () => {
       render.init(state, testEngine);
       physics.init(state, testEngine);
 
-      const { x: renderX, y: renderY, z: renderZ } = state.cube.object3d.position;
-      const { x: physicX, y: physicY, z: physicZ } = state.cube.desc.translation;
+      const {
+        x: renderX,
+        y: renderY,
+        z: renderZ,
+      } = state.cube.object3d.position;
+      const {
+        x: physicX,
+        y: physicY,
+        z: physicZ,
+      } = state.cube.desc.translation;
 
       expect(renderX).toBeCloseTo(physicX);
       expect(renderY).toBeCloseTo(physicY);
@@ -91,11 +114,15 @@ describe("physics system integrating with the rendering system", () => {
         w: quarternionW,
       } = state.cube.desc.rotation;
 
-      const { x: physicX, y: physicY, z: physicZ } = new Quaternion(
+      const {
+        x: physicX,
+        y: physicY,
+        z: physicZ,
+      } = new Quaternion(
         quarternionX,
         quarternionY,
         quarternionZ,
-        quarternionW
+        quarternionW,
       );
 
       expect(renderX).toBeCloseTo(physicX);
@@ -120,8 +147,16 @@ describe("physics system integrating with the rendering system", () => {
 
       runTicks(physics, state, testEngine);
 
-      const { x: renderX, y: renderY, z: renderZ } = state.cube.object3d.position;
-      const { x: physicX, y: physicY, z: physicZ } = state.cube.rigidBody?.translation() as Vector;
+      const {
+        x: renderX,
+        y: renderY,
+        z: renderZ,
+      } = state.cube.object3d.position;
+      const {
+        x: physicX,
+        y: physicY,
+        z: physicZ,
+      } = state.cube.rigidBody?.translation() as Vector;
 
       expect(renderX).toBeCloseTo(physicX, 0);
       expect(renderY).toBeCloseTo(physicY, 0);
@@ -148,11 +183,15 @@ describe("physics system integrating with the rendering system", () => {
         w: quarternionW,
       } = state.cube.desc.rotation;
 
-      const { x: physicX, y: physicY, z: physicZ } = new Quaternion(
+      const {
+        x: physicX,
+        y: physicY,
+        z: physicZ,
+      } = new Quaternion(
         quarternionX,
         quarternionY,
         quarternionZ,
-        quarternionW
+        quarternionW,
       );
 
       expect(renderX).toBeCloseTo(physicX, 0);

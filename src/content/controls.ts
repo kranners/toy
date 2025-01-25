@@ -8,10 +8,10 @@ export const controls: Lifecycleable = {
   onInit: (_: State, engine: Engine) => {
     orbitControls = new OrbitControls(
       engine.camera,
-      engine.renderer.domElement
+      engine.renderer.domElement,
     );
   },
   onTick: () => {
     orbitControls.update();
-  }
+  },
 };
