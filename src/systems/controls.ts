@@ -1,6 +1,23 @@
 import { System } from "../lib/types";
 
+const CONTROLS = {
+  FORWARD: "forward",
+  RIGHT: "right",
+  LEFT: "left",
+  JUMP: "jump",
+} as const;
+
+export type Control = (typeof CONTROLS)[keyof typeof CONTROLS];
+
 export const PRESSED_KEYS: Record<string, boolean> = {};
+export const PRESSED_CONTROLS: Partial<Record<Control, boolean>> = {};
+
+export const KEYS_TO_CONTROLS: Record<string, Control> = {
+  w: CONTROLS.FORWARD,
+  d: CONTROLS.RIGHT,
+  a: CONTROLS.LEFT,
+  Space: CONTROLS.JUMP,
+};
 
 const setKeyState = (to: boolean) => {
   return (event: KeyboardEvent) => {
