@@ -22,6 +22,7 @@ export const KEYS_TO_CONTROLS: Record<string, Control> = {
 const setKeyState = (to: boolean) => {
   return (event: KeyboardEvent) => {
     PRESSED_KEYS[event.key] = to;
+    PRESSED_CONTROLS[KEYS_TO_CONTROLS[event.key]] = to;
   };
 };
 

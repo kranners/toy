@@ -8,6 +8,8 @@ import { GRAVITY } from "./lib/constants";
 import { loadModels } from "./systems/load-models";
 import { physics } from "./systems/physics";
 import { GLTFLoader } from "three/examples/jsm/Addons";
+import { controls } from "./systems/controls";
+import { stateMachine } from "./systems/state-machine";
 
 import("@dimforge/rapier3d").then(async (rapier: Rapier) => {
   if (document.body.children.length > 1) {
@@ -38,7 +40,15 @@ import("@dimforge/rapier3d").then(async (rapier: Rapier) => {
     currentTick,
   };
 
-  const systems: System[] = [tick, render, resize, loadModels, physics];
+  const systems: System[] = [
+    render,
+    resize,
+    loadModels,
+    physics,
+    controls,
+    stateMachine,
+    tick,
+  ];
 
   renderer.setSize(window.innerWidth, window.innerHeight, true);
   document.body.appendChild(renderer.domElement);
