@@ -19,6 +19,7 @@ export type Engine = {
 
   world: World;
   gltfLoader: GLTFLoader;
+  currentTick: number;
 };
 
 export type System = {

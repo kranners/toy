@@ -14,6 +14,7 @@ import("@dimforge/rapier3d").then(async (rapier: Rapier) => {
     return;
   }
 
+  const currentTick = 0;
   const world = new rapier.World(GRAVITY);
 
   const renderer = new WebGLRenderer();
@@ -28,17 +29,21 @@ import("@dimforge/rapier3d").then(async (rapier: Rapier) => {
 
   camera.position.set(3, 3, 3);
 
-  const engine: Engine = { renderer, scene, camera, world, gltfLoader };
+  const engine: Engine = {
+    renderer,
+    scene,
+    camera,
+    world,
+    gltfLoader,
+    currentTick,
+  };
+
   const systems: System[] = [tick, render, resize, loadModels, physics];
 
   renderer.setSize(window.innerWidth, window.innerHeight, true);
   document.body.appendChild(renderer.domElement);
 
   const loadingSystems = systems.map(async (system) => {
-    if (system.init === undefined) {
-      return;
-    }
-
     await system.init(state, engine);
   });
 
@@ -46,11 +51,8 @@ import("@dimforge/rapier3d").then(async (rapier: Rapier) => {
 
   renderer.setAnimationLoop(() => {
     systems.forEach((system) => {
-      if (system.tick === undefined) {
-        return;
-      }
-
       system.tick(state, engine);
+      engine.currentTick++;
     });
   });
 });

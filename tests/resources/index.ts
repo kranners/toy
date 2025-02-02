@@ -32,5 +32,6 @@ export const runTicks = (
 ) => {
   for (let iteration = 0; iteration < count; iteration++) {
     system.tick?.(state, engine);
+    engine.currentTick = engine.currentTick + 1;
   }
 };

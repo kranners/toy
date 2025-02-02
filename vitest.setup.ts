@@ -27,7 +27,14 @@ beforeAll(async () => {
 
   const gltfLoader = { load: mockOnLoad } as unknown as GLTFLoader;
 
-  testEngine = { renderer, scene, camera, world, gltfLoader };
+  testEngine = {
+    renderer,
+    scene,
+    camera,
+    world,
+    gltfLoader,
+    currentTick: 0,
+  };
 
   const existingCanvas = document.body.querySelector("canvas");
 
