@@ -1,7 +1,6 @@
 import {
   ColliderDesc,
   DynamicRayCastVehicleController,
-  KinematicCharacterController,
   RigidBodyDesc,
   World,
 } from "@dimforge/rapier3d";
@@ -9,7 +8,6 @@ import { HasModel } from "../systems/load-models";
 import { Physical } from "../systems/physics";
 import { PRESSED_CONTROLS } from "../systems/controls";
 import { Stateful } from "../systems/state-machine";
-import { MathUtils, Vector3 } from "three";
 import { Lifecycleable } from "../systems/lifecycle";
 import { Engine, State } from "../lib/types";
 
@@ -44,12 +42,7 @@ const processCubeControls = (): CubeState => {
   return "accelerate";
 };
 
-const deltaAngle = 1;
-const deltaVelocity = 1;
-
-const velocity: Vector = { x: 0, y: 0, z: 0 };
-
-let controller: DynamicRayCastVehicleController;
+let controller: DynamicRayCastVehicleController | undefined = undefined;
 
 export const cube: Physical & HasModel & Stateful<CubeState> & Lifecycleable = {
   assetPath: "box.glb",
@@ -61,8 +54,19 @@ export const cube: Physical & HasModel & Stateful<CubeState> & Lifecycleable = {
       controller = engine.world.createVehicleController(cube.rigidBody);
     }
   },
-  onTick: () => {
+  onTick: (_, engine: Engine) => {
     controller.updateVehicle(1 / 60);
+
+    if (cube.rigidBody === undefined) {
+      return;
+    }
+
+    if (controller === undefined) {
+      controller = engine.world.createVehicleController(cube.rigidBody);
+    }
+
+    controller.updateVehicle(engine.world.timestep);
+    controller.addWheel();
   },
   stateMachine: {
     idle: (): CubeState => {
